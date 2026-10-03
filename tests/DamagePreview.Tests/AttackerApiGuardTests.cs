@@ -132,5 +132,37 @@ public class AttackerApiGuardTests
         Assert.Contains(dt.Methods, m => m.Name == "ApplyArmor" && m.Parameters.Count == 2 && m.IsStatic);
         Assert.Contains(dt.Methods, m => m.Name == "ApplyArmor" && m.Parameters.Count == 1);
         Assert.NotNull(GameAssembly.Method("HitData", "ApplyResistance", "DamageModifiers", "DamageModifier&"));
+        Assert.NotNull(GameAssembly.Method("HitData", "ApplyModifier", "Single"));   // ten-channel scaler mirrored by DamageTypes.ScaleHit
+        Assert.Contains(GameAssembly.Type("HitData").Methods, m => m.IsConstructor && m.Parameters.Count == 0 && m.IsPublic);
+    }
+
+    [Fact]
+    public void Humanoid_RightItem_property_getter_is_public()
+    {
+        if (!GameAssembly.IsAvailable) return;
+        PropertyDefinition p = System.Linq.Enumerable.First(GameAssembly.Type("Humanoid").Properties, x => x.Name == "RightItem");
+        Assert.True(p.GetMethod.IsPublic);
+        Assert.False(p.GetMethod.IsStatic);
+        Assert.Equal("ItemData", p.PropertyType.Name);
+    }
+
+    [Fact]
+    public void SharedData_m_itemType_is_a_public_ItemType_field()
+    {
+        if (!GameAssembly.IsAvailable) return;
+        TypeDefinition itemData = GameAssembly.NestedType("ItemDrop", "ItemData");
+        TypeDefinition shared = System.Linq.Enumerable.First(itemData.NestedTypes, t => t.Name == "SharedData");
+        FieldDefinition f = System.Linq.Enumerable.First(shared.Fields, x => x.Name == "m_itemType");
+        Assert.True(f.IsPublic);
+        Assert.Equal("ItemType", f.FieldType.Name);
+    }
+
+    [Fact]
+    public void ItemType_enum_has_Tool()
+    {
+        if (!GameAssembly.IsAvailable) return;
+        TypeDefinition itemData = GameAssembly.NestedType("ItemDrop", "ItemData");
+        TypeDefinition itemType = System.Linq.Enumerable.First(itemData.NestedTypes, t => t.Name == "ItemType");
+        Assert.Contains(itemType.Fields, x => x.Name == "Tool");
     }
 }

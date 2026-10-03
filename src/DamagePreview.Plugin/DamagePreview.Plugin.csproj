@@ -37,7 +37,7 @@
        Character.m_backstabTime are reachable as typed members. PrivateAssets keeps
        the tool out of the output. -->
   <ItemGroup>
-    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3" PrivateAssets="all" ExcludeAssets="runtime" />
   </ItemGroup>
 
   <!-- CI has no Valheim: the Digitalroot references are already publicized. -->

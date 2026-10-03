@@ -9,6 +9,12 @@ internal static class AttackerReader
     public static bool TryRead(Player player, out AttackerPreview preview)
     {
         preview = null!;
+        ItemDrop.ItemData? rightItem = player.RightItem;
+        if (rightItem != null && rightItem.m_shared.m_itemType == ItemDrop.ItemData.ItemType.Tool)
+        {
+            return false;   // Hammer, hoe, cultivator: the game would swing fists, nobody wants fist ghosts while building.
+        }
+
         ItemDrop.ItemData? weapon = player.GetCurrentWeapon();
         if (weapon == null) return false;
 

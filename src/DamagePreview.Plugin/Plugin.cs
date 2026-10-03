@@ -24,6 +24,17 @@ public sealed class Plugin : BaseUnityPlugin
         if (_failed) return;
         _failed = true;
         Log.LogError($"{PluginInfo.Name} disabled itself after an error: {e}");
+        try
+        {
+            if (EnemyHud.instance != null)
+            {
+                PreviewDriver.HideAllPublic(EnemyHud.instance);
+            }
+        }
+        catch
+        {
+            // Nothing more we can do; the hud keeps working without us.
+        }
     }
 
     private void Awake()

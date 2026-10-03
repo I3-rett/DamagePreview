@@ -9,6 +9,15 @@ namespace DamagePreview.Tests;
 public class EnemyHudGuardTests
 {
     [Fact]
+    public void EnemyHud_instance_getter_is_public_static()
+    {
+        if (!GameAssembly.IsAvailable) return;
+        PropertyDefinition p = System.Linq.Enumerable.First(GameAssembly.Type("EnemyHud").Properties, x => x.Name == "instance");
+        Assert.True(p.GetMethod.IsPublic);
+        Assert.True(p.GetMethod.IsStatic);
+    }
+
+    [Fact]
     public void EnemyHud_UpdateHuds_takes_player_sadle_dt()
     {
         if (!GameAssembly.IsAvailable) return;

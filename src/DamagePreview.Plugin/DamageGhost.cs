@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DamagePreview.Core;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,15 +18,28 @@ internal sealed class DamageGhost : MonoBehaviour
     private RectTransform _ghostMin = null!;
     private RectTransform _tickMax = null!;
     private RectTransform _tickMin = null!;
+    private Image _ghostMaxImage = null!;
+    private Image _ghostMinImage = null!;
+    private Image _tickMaxImage = null!;
+    private Image _tickMinImage = null!;
     private bool _built;
+    private static readonly HashSet<string> ReportedPrefabs = new();
 
     /// <summary>Returns the ghost for this hud, building it on first sight. Null when the
     /// hud is gone or does not have the vanilla bar hierarchy (another mod replaced it).</summary>
     public static DamageGhost? Attach(EnemyHud.HudData hud)
     {
         GameObject? gui = hud.m_gui;
-        if (gui == null || hud.m_healthFast == null || hud.m_healthSlow == null) return null;
-        if (hud.m_healthFast.m_bar == null || hud.m_healthSlow.m_bar == null) return null;
+        if (gui == null) return null;
+        if (hud.m_healthFast == null || hud.m_healthSlow == null
+            || hud.m_healthFast.m_bar == null || hud.m_healthSlow.m_bar == null)
+        {
+            if (ReportedPrefabs.Add(gui.name))
+            {
+                Plugin.Log.LogWarning($"No vanilla health bar found under hud '{gui.name}'; no damage preview for it.");
+            }
+            return null;
+        }
 
         DamageGhost ghost = gui.GetComponent<DamageGhost>() ?? gui.AddComponent<DamageGhost>();
         if (!ghost._built)
@@ -38,6 +52,12 @@ internal sealed class DamageGhost : MonoBehaviour
     public void Show(float healthFraction, float maxHealth, DamageRange primary, DamageRange? secondary)
     {
         if (_reference == null || _slow == null) { Hide(); return; }
+        if (_ghostMax == null || _ghostMin == null || _tickMax == null || _tickMin == null
+            || _ghostMaxImage == null || _ghostMinImage == null || _tickMaxImage == null || _tickMinImage == null)
+        {
+            Hide();
+            return;
+        }
         float width = _slow.m_width;
         if (width <= 0f) { Hide(); return; }
         float x = _reference.anchoredPosition.x;
@@ -70,10 +90,10 @@ internal sealed class DamageGhost : MonoBehaviour
             Place(_tickMin, x + fromMin * width, y, TickWidth, true);
         }
 
-        _ghostMax.GetComponent<Image>().color = Settings.PrimaryMax.Value;
-        _ghostMin.GetComponent<Image>().color = Settings.PrimaryMin.Value;
-        _tickMax.GetComponent<Image>().color = Settings.Secondary.Value;
-        _tickMin.GetComponent<Image>().color = Settings.Secondary.Value;
+        _ghostMaxImage.color = Settings.PrimaryMax.Value;
+        _ghostMinImage.color = Settings.PrimaryMin.Value;
+        _tickMaxImage.color = Settings.Secondary.Value;
+        _tickMinImage.color = Settings.Secondary.Value;
     }
 
     public void Hide()
@@ -104,6 +124,10 @@ internal sealed class DamageGhost : MonoBehaviour
         _ghostMin = MakeImage("dp_ghost_min", track, source);
         _tickMax = MakeImage("dp_tick_max", track, source);
         _tickMin = MakeImage("dp_tick_min", track, source);
+        _ghostMaxImage = _ghostMax.GetComponent<Image>();
+        _ghostMinImage = _ghostMin.GetComponent<Image>();
+        _tickMaxImage = _tickMax.GetComponent<Image>();
+        _tickMinImage = _tickMin.GetComponent<Image>();
         _built = true;
         Hide();
     }
