@@ -32,6 +32,12 @@ public readonly struct DamageTypes
         Chop * m.Chop, Pickaxe * m.Pickaxe, Fire * m.Fire, Frost * m.Frost,
         Lightning * m.Lightning, Poison * m.Poison, Spirit * m.Spirit, NonPlayer * m.NonPlayer);
 
+    /// <summary>HitData.ApplyModifier(float): scales the ten channels the game scales on the
+    /// target side, leaving the generic `Damage` and `NonPlayer` channels untouched.</summary>
+    public DamageTypes ScaleHit(float f) => new(
+        Damage, Blunt * f, Slash * f, Pierce * f, Chop * f, Pickaxe * f,
+        Fire * f, Frost * f, Lightning * f, Poison * f, Spirit * f, NonPlayer);
+
     /// <summary>HitData.DamageTypes.GetTotalDamage: all twelve channels.</summary>
     public float Total() =>
         Damage + Blunt + Slash + Pierce + Chop + Pickaxe + Fire + Frost + Lightning + Poison + Spirit + NonPlayer;

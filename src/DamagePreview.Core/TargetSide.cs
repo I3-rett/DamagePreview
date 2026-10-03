@@ -9,17 +9,19 @@ public static class TargetSide
         DamageTypes d = hit;
         if (t.BackstabApplies && t.BackstabBonus > 1f)
         {
-            d = d.Scale(t.BackstabBonus);
+            d = d.ScaleHit(t.BackstabBonus);
         }
         if (t.Staggering)
         {
-            d = d.Scale(2f);
+            d = d.ScaleHit(2f);
         }
         d = Resistance.Apply(d, t.Modifiers);
         d = ArmorFormula.ApplyTo(d, t.WorldLevelArmor);
 
-        // RPC_Damage zeroes poison/fire/spirit, then ApplyDamage scales and totals.
-        float instant = d.InstantTotal() * t.DifficultyScaleEnemy * t.PlayerDamageRate;
+        // RPC_Damage zeroes poison/fire/spirit, then ApplyDamage applies the difficulty scale
+        // and the player damage rate with HitData.ApplyModifier (ten channels) and totals.
+        d = d.ScaleHit(t.DifficultyScaleEnemy).ScaleHit(t.PlayerDamageRate);
+        float instant = d.InstantTotal();
         return instant <= 0.1f ? 0f : instant;
     }
 }

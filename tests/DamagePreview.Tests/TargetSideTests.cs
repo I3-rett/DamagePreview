@@ -60,7 +60,18 @@ public class TargetSideTests
     [Fact]
     public void Generic_damage_channel_skips_resistance_and_armor_but_counts()
     {
-        var t = Plain(new DamageModifiers(pierce: DamageModifier.Immune), armor: 1000f);
-        Assert.Equal(10f, TargetSide.Apply(new DamageTypes(damage: 10, pierce: 100), t), 4);
+        var t = Plain(new DamageModifiers(pierce: DamageModifier.Normal), armor: 1000f);
+        // pierce 100 with armor 1000: ac >= dmg/2 so result = clamp01(100/4000)*100 = 2.5; total = 10 + 2.5 = 12.5
+        Assert.Equal(12.5f, TargetSide.Apply(new DamageTypes(damage: 10, pierce: 100), t), 4);
+    }
+
+    [Fact]
+    public void Generic_damage_and_nonPlayer_ignore_backstab_stagger_difficulty_and_rate()
+    {
+        // Game: HitData.ApplyModifier(float) skips m_damage and m_nonPlayer.
+        var t = Plain(backstab: true, backstabBonus: 3f, staggering: true, difficulty: 0.5f, rate: 2f);
+        float r = TargetSide.Apply(new DamageTypes(damage: 10, nonPlayer: 5, pierce: 10), t);
+        // pierce: 10 x3 x2 x0.5 x2 = 60; damage 10 and nonPlayer 5 unchanged.
+        Assert.Equal(75f, r, 4);
     }
 }

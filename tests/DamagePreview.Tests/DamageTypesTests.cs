@@ -47,6 +47,28 @@ public class DamageTypesTests
     }
 
     [Fact]
+    public void ScaleHit_leaves_generic_damage_and_nonPlayer_untouched()
+    {
+        var d = new DamageTypes(damage: 10, blunt: 10, slash: 10, pierce: 10, chop: 10, pickaxe: 10,
+            fire: 10, frost: 10, lightning: 10, poison: 10, spirit: 10, nonPlayer: 10);
+
+        DamageTypes s = d.ScaleHit(2f);
+
+        Assert.Equal(10f, s.Damage);
+        Assert.Equal(10f, s.NonPlayer);
+        Assert.Equal(20f, s.Blunt);
+        Assert.Equal(20f, s.Slash);
+        Assert.Equal(20f, s.Pierce);
+        Assert.Equal(20f, s.Chop);
+        Assert.Equal(20f, s.Pickaxe);
+        Assert.Equal(20f, s.Fire);
+        Assert.Equal(20f, s.Frost);
+        Assert.Equal(20f, s.Lightning);
+        Assert.Equal(20f, s.Poison);
+        Assert.Equal(20f, s.Spirit);
+    }
+
+    [Fact]
     public void Total_includes_all_twelve_fields_like_the_game()
     {
         var d = new DamageTypes(damage: 1, blunt: 1, slash: 1, pierce: 1, chop: 1, pickaxe: 1,
