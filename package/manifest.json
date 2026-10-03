@@ -1,0 +1,10 @@
+{
+  "name": "DamagePreview",
+  "author": "I3_rett",
+  "version_number": "0.1.0",
+  "website_url": "https://github.com/I3-rett/DamagePreview",
+  "description": "Previews your equipped weapon's min/max damage on enemy health bars, with skill, draw, backstab, stagger and resistances. Client-side only.",
+  "dependencies": [
+    "denikson-BepInExPack_Valheim-5.4.2351"
+  ]
+}
