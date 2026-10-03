@@ -37,7 +37,9 @@ internal sealed class DamageGhost : MonoBehaviour
 
     public void Show(float healthFraction, float maxHealth, DamageRange primary, DamageRange? secondary)
     {
-        float width = _slow.m_width > 0f ? _slow.m_width : _reference.rect.width;
+        if (_reference == null || _slow == null) { Hide(); return; }
+        float width = _slow.m_width > 0f ? _slow.m_width : 0f;
+        if (width <= 0f) { Hide(); return; }
         float x = _reference.anchoredPosition.x;
         float y = _reference.anchoredPosition.y;
 

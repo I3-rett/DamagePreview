@@ -30,6 +30,13 @@ public sealed class Plugin : BaseUnityPlugin
     {
         Log = Logger;
         Settings.Bind(Config);
+        Settings.Enabled.SettingChanged += (_, _) =>
+        {
+            if (!Settings.Enabled.Value && EnemyHud.instance != null)
+            {
+                PreviewDriver.HideAllPublic(EnemyHud.instance);
+            }
+        };
         _harmony = new Harmony(PluginInfo.Guid);
         _harmony.PatchAll(typeof(Plugin).Assembly);
         Log.LogInfo($"{PluginInfo.Name} {PluginInfo.Version} loaded");
