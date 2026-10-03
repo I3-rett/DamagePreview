@@ -1,6 +1,6 @@
 # DamagePreview
 
-A client-side Valheim mod that previews how much damage your weapon will do, right on the enemy health bar. The preview shows the minimum and maximum hit based on your current skill level, and two violet tick marks show the lowest and highest landing points of the secondary attack, or of a fully drawn bow shot. Nothing is sent over the network and nothing is written to the world, so it works on any server without the server needing the mod.
+A client-side Valheim mod that previews how much damage your weapon will do, right on the enemy health bar. The preview shows the minimum and maximum hit based on your current skill level, and two violet tick marks show the lowest and highest landing points of the secondary attack, or of a fully drawn bow shot. On creatures that have a weak spot, a pale yellow segment under the orange ones shows the guaranteed damage of a hit on it. Nothing is sent over the network and nothing is written to the world, so it works on any server without the server needing the mod.
 
 ## Install
 
@@ -37,9 +37,11 @@ The tests read the installed game assemblies to check that the game members the 
 | General | IncludeBackstab | true | Apply the weapon's backstab bonus when the target has not noticed you and its backstab cooldown has elapsed. |
 | General | UndrawnBowIsFullDraw | true | With a bow that is not drawn, preview a fully drawn shot instead of nothing. |
 | General | ShowSecondary | true | Show the two tick marks for the secondary attack (or the fully drawn shot of a bow). |
+| General | ShowWeakSpot | true | On creatures that have a weak spot, show the guaranteed damage of a hit on it as a pale yellow segment under the orange ones. |
 | Colors | PrimaryMin | orange (1, 0.55, 0, 1) | Guaranteed damage of the primary attack (lowest skill roll). |
 | Colors | PrimaryMax | orange, half transparent (1, 0.55, 0, 0.5) | Possible extra damage of the primary attack (up to the highest skill roll). |
 | Colors | Secondary | purple (0.7, 0.4, 1, 1) | Tick marks of the secondary attack / fully drawn bow. |
+| Colors | WeakSpot | pale yellow (1, 0.9, 0.2, 0.6) | Guaranteed damage of the primary attack on the creature's weak spot. |
 
 ## Compatibility
 
@@ -50,7 +52,7 @@ The tests read the installed game assemblies to check that the game members the 
 
 - Damage over time (poison, fire, spirit) is not shown.
 - Creatures that are blocking with a shield show the unblocked hit.
-- Weak spots are not modelled.
+- The weak-spot segment assumes you hit the spot; the orange segments assume you do not.
 - The extra backstab condition of the PassiveMobs world modifier is not modelled.
 - No preview is shown on the creature you are riding.
 - No preview is shown while you hold a tool such as the hammer, hoe or cultivator.

@@ -42,9 +42,26 @@ internal static class PreviewDriver
                 ? new DamageRange(TargetSide.Apply(attacker.SecondaryMin, target), TargetSide.Apply(attacker.SecondaryMax, target))
                 : null;
 
+            DamageRange? weakSpot = null;
+            if (Settings.ShowWeakSpot.Value)
+            {
+                foreach (WeakSpot spot in TargetReader.WeakSpotsOf(c))
+                {
+                    if (spot == null) continue;
+                    TargetInput spotTarget = TargetReader.ReadWeakSpot(c, spot, attacker.BackstabBonus);
+                    var range = new DamageRange(
+                        TargetSide.Apply(attacker.PrimaryMin, spotTarget),
+                        TargetSide.Apply(attacker.PrimaryMax, spotTarget));
+                    if (weakSpot == null || range.Min > weakSpot.Value.Min)
+                    {
+                        weakSpot = range;   // the spot worth aiming at: highest guaranteed damage
+                    }
+                }
+            }
+
             float maxHealth = c.GetMaxHealth();
             float fraction = maxHealth > 0f ? c.GetHealth() / maxHealth : 0f;
-            ghost.Show(fraction, maxHealth, primary, secondary);
+            ghost.Show(fraction, maxHealth, primary, secondary, weakSpot);
         }
     }
 

@@ -99,4 +99,22 @@ public class TargetApiGuardTests
             Assert.Equal(i, (int)f.Constant);
         }
     }
+
+    [Fact]
+    public void Character_m_weakSpots_is_a_public_WeakSpot_array()
+    {
+        if (!GameAssembly.IsAvailable) return;
+        FieldDefinition f = GameAssembly.Field("Character", "m_weakSpots");
+        Assert.True(f.IsPublic);
+        Assert.Equal("WeakSpot[]", f.FieldType.Name);
+    }
+
+    [Fact]
+    public void WeakSpot_m_damageModifiers_is_public()
+    {
+        if (!GameAssembly.IsAvailable) return;
+        FieldDefinition f = GameAssembly.Field("WeakSpot", "m_damageModifiers");
+        Assert.True(f.IsPublic);
+        Assert.Equal("DamageModifiers", f.FieldType.Name);
+    }
 }

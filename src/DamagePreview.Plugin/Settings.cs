@@ -9,9 +9,11 @@ internal static class Settings
     public static ConfigEntry<bool> IncludeBackstab = null!;
     public static ConfigEntry<bool> UndrawnBowIsFullDraw = null!;
     public static ConfigEntry<bool> ShowSecondary = null!;
+    public static ConfigEntry<bool> ShowWeakSpot = null!;
     public static ConfigEntry<Color> PrimaryMin = null!;
     public static ConfigEntry<Color> PrimaryMax = null!;
     public static ConfigEntry<Color> Secondary = null!;
+    public static ConfigEntry<Color> WeakSpot = null!;
 
     public static void Bind(ConfigFile config)
     {
@@ -27,6 +29,9 @@ internal static class Settings
         ShowSecondary = config.Bind("General", "ShowSecondary", true, new ConfigDescription(
             "Show the two tick marks for the secondary attack (or the fully drawn shot of a bow).", null,
             new ConfigurationManagerAttributes { Order = 70 }));
+        ShowWeakSpot = config.Bind("General", "ShowWeakSpot", true, new ConfigDescription(
+            "On creatures that have a weak spot, show the guaranteed damage of a hit on it as a pale yellow segment under the orange ones.", null,
+            new ConfigurationManagerAttributes { Order = 60 }));
 
         PrimaryMin = config.Bind("Colors", "PrimaryMin", new Color(1f, 0.55f, 0f, 1f), new ConfigDescription(
             "Guaranteed damage of the primary attack (lowest skill roll).", null,
@@ -37,5 +42,8 @@ internal static class Settings
         Secondary = config.Bind("Colors", "Secondary", new Color(0.7f, 0.4f, 1f, 1f), new ConfigDescription(
             "Tick marks of the secondary attack / fully drawn bow.", null,
             new ConfigurationManagerAttributes { Order = 10 }));
+        WeakSpot = config.Bind("Colors", "WeakSpot", new Color(1f, 0.9f, 0.2f, 0.6f), new ConfigDescription(
+            "Guaranteed damage of the primary attack on the creature's weak spot.", null,
+            new ConfigurationManagerAttributes { Order = 5 }));
     }
 }
