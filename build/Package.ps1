@@ -4,7 +4,7 @@
 
 .DESCRIPTION
     Builds Release, checks that package/manifest.json agrees with PluginInfo.Version,
-    stages the five package files and zips them with the DLLs at the archive root.
+    stages the six package files and zips them with the DLLs at the archive root.
 
     The zip is reopened and verified entry by entry afterwards. Windows Defender
     briefly locks a freshly written DLL while it scans it; Compress-Archive reports

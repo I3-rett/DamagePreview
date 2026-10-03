@@ -16,6 +16,8 @@ permissions:
 jobs:
   release:
     runs-on: windows-latest
+    env:
+      THUNDERSTORE_TOKEN: ${{ secrets.THUNDERSTORE_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -123,8 +125,6 @@ jobs:
       # deliberately runs last, after everything else has succeeded.
       - name: Publish to Thunderstore
         if: env.THUNDERSTORE_TOKEN != ''
-        env:
-          THUNDERSTORE_TOKEN: ${{ secrets.THUNDERSTORE_TOKEN }}
         shell: bash
         run: |
           dotnet tool install -g tcli
