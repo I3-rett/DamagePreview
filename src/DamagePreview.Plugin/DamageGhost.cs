@@ -38,7 +38,7 @@ internal sealed class DamageGhost : MonoBehaviour
     public void Show(float healthFraction, float maxHealth, DamageRange primary, DamageRange? secondary)
     {
         if (_reference == null || _slow == null) { Hide(); return; }
-        float width = _slow.m_width > 0f ? _slow.m_width : 0f;
+        float width = _slow.m_width;
         if (width <= 0f) { Hide(); return; }
         float x = _reference.anchoredPosition.x;
         float y = _reference.anchoredPosition.y;
@@ -79,10 +79,18 @@ internal sealed class DamageGhost : MonoBehaviour
     public void Hide()
     {
         if (!_built) return;
-        _ghostMax.gameObject.SetActive(false);
-        _ghostMin.gameObject.SetActive(false);
-        _tickMax.gameObject.SetActive(false);
-        _tickMin.gameObject.SetActive(false);
+        Off(_ghostMax);
+        Off(_ghostMin);
+        Off(_tickMax);
+        Off(_tickMin);
+    }
+
+    private static void Off(RectTransform? rt)
+    {
+        if (rt != null)
+        {
+            rt.gameObject.SetActive(false);
+        }
     }
 
     private void Build(EnemyHud.HudData hud)

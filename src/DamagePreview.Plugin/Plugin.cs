@@ -32,9 +32,16 @@ public sealed class Plugin : BaseUnityPlugin
         Settings.Bind(Config);
         Settings.Enabled.SettingChanged += (_, _) =>
         {
-            if (!Settings.Enabled.Value && EnemyHud.instance != null)
+            try
             {
-                PreviewDriver.HideAllPublic(EnemyHud.instance);
+                if (!Settings.Enabled.Value && EnemyHud.instance != null)
+                {
+                    PreviewDriver.HideAllPublic(EnemyHud.instance);
+                }
+            }
+            catch (Exception e)
+            {
+                Fail(e);
             }
         };
         _harmony = new Harmony(PluginInfo.Guid);
