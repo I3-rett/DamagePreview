@@ -40,5 +40,6 @@ Settings are in `BepInEx/config/` (or the mod manager config editor).
 - Weak spots are not modelled.
 - The extra backstab condition of the PassiveMobs world modifier is not modelled.
 - No preview is shown on the creature you are riding.
+- No preview is shown while you hold a tool such as the hammer, hoe or cultivator.
 
 Source and issues: https://github.com/I3-rett/DamagePreview

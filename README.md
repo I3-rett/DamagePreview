@@ -1,6 +1,6 @@
 # DamagePreview
 
-A client-side Valheim mod that previews how much damage your weapon will do, right on the enemy health bar. The preview shows the minimum and maximum hit based on your current skill level, and for secondary attacks that land in several ticks it shows each tick. Nothing is sent over the network and nothing is written to the world, so it works on any server without the server needing the mod.
+A client-side Valheim mod that previews how much damage your weapon will do, right on the enemy health bar. The preview shows the minimum and maximum hit based on your current skill level, and two violet tick marks show the lowest and highest landing points of the secondary attack, or of a fully drawn bow shot. Nothing is sent over the network and nothing is written to the world, so it works on any server without the server needing the mod.
 
 ## Install
 
@@ -53,6 +53,7 @@ The tests read the installed game assemblies to check that the game members the 
 - Weak spots are not modelled.
 - The extra backstab condition of the PassiveMobs world modifier is not modelled.
 - No preview is shown on the creature you are riding.
+- No preview is shown while you hold a tool such as the hammer, hoe or cultivator.
 
 ## Package
 
