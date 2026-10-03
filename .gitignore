@@ -1,0 +1,29 @@
+# Iron Gate / Unity / BepInEx binaries. Never committed (Steam EULA).
+assembly_*.dll
+Assembly-CSharp.dll
+UnityEngine*.dll
+Unity.*.dll
+0Harmony*.dll
+BepInEx*.dll
+**/publicized_assemblies/
+lib/valheim/
+
+# Build output
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+.vs/
+build/out/
+package/*.zip
+
+# Local working notes, not part of the project
+MEMORY.md
+IMPLEMENTATION_PLAN.md
+TODO.md
+CONTEXT.md
+CLAUDE.md
+.claude/
+.superpowers/
+docs/superpowers/
+docs/MANUAL_TESTS.md

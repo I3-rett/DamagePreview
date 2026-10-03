@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- netstandard2.0 on purpose: this project must never be able to reference
+       UnityEngine or BepInEx. Pure, deterministic, unit-tested logic only. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <Nullable>enable</Nullable>
+    <AssemblyName>DamagePreview.Core</AssemblyName>
+    <RootNamespace>DamagePreview.Core</RootNamespace>
+  </PropertyGroup>
+</Project>
